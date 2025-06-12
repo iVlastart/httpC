@@ -1,0 +1,2 @@
+export PORT=6969
+export BUFFER=4096
