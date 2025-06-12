@@ -4,17 +4,19 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define PORT 6969
-#define BUFFER 1024
 
 char resp[] = "HTTP/1.0 200 OK\r\n"
-"Server: webserver-c\r\n"
-"Content-type: text/html\r\n\r\n"
-"<html>hello, world</html>\r\n";
+"Server: webserver-c\r\n";
 
 int main(void)
 {
+    const char* PORT_ENV = getenv("PORT");
+    const char* BUFFER_ENV = getenv("BUFFER");
+
+    int PORT = PORT_ENV ? atoi(PORT_ENV) : 8080;       // výchozí hodnota 8080, pokud není nastavena proměnná
+    int BUFFER = BUFFER_ENV ? atoi(BUFFER_ENV) : 1024; // výchozí hodnota 1024
     char buff[BUFFER];
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in host_addr;
