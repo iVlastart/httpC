@@ -10,7 +10,9 @@ int main(void)
 {
     char header[] = "HTTP/1.0 200 OK\r\n"
                 "Server: webserver-c\r\n"
+                "X-Powered-By: PHP/8.2.7\r\n"
                 "Content-Type: text/html\r\n"
+                "Content-Length: 1234\r\n"
                 "\r\n";
 
     FILE *pFile;
@@ -70,13 +72,13 @@ int main(void)
             continue;
         }
 
-        pFile = fopen("./client/index.html", "r");
+        pFile = popen("php ./client/index.php", "r");
         bytesRead = fread(body, 1, BUFFER - 1, pFile);
-        body[bytesRead] = '\0';  // ukonči řetězec
-        fclose(pFile);    // Připoj tělo
+        body[bytesRead] = '\0';
+        pclose(pFile);
 
-        strcpy(resp, header);   // Zkopíruj hlavičku
-        strcat(resp, body);     // Připoj tělo
+        strcpy(resp, header);
+        strcat(resp, body);
         
         ssize_t valWrite = write(newsockfd, resp, strlen(resp));
         if(valWrite<0)

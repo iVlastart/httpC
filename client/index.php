@@ -6,6 +6,6 @@
     <title>S</title>
 </head>
 <body>
-    Hello, world!
+    <?php echo "Hello, World!" ?>
 </body>
 </html>
